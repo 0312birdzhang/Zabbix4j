@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.0312birdzhang</groupId>
+  <groupId>com.crazyitn</groupId>
   <artifactId>Zabbix4j</artifactId>
-  <version>0.1.7</version>
+  <version>0.1.10</version>
   <name>Zabbix4j</name>
   <description>java api for zabbix</description>
   <build>
@@ -43,5 +43,16 @@
   		<artifactId>slf4j-api</artifactId>
   		<version>1.7.7</version>
   	</dependency>
+	  <dependency>
+		  <groupId>org.projectlombok</groupId>
+		  <artifactId>lombok</artifactId>
+		  <version>1.14.4</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>junit</groupId>
+		  <artifactId>junit</artifactId>
+		  <version>4.12</version>
+		  <scope>test</scope>
+	  </dependency>
   </dependencies>
 </project>

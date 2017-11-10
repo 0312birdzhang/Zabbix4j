@@ -30,11 +30,11 @@ import com.zabbix4j.utils.json.JSONObject;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -46,6 +46,8 @@ import org.slf4j.LoggerFactory;
 public class ZabbixApiMethod {
 
     private static Logger logger = LoggerFactory.getLogger(ZabbixApiMethod.class);
+
+    public static HttpClient httpClient;
 
     protected String apiUrl;
 
@@ -67,16 +69,13 @@ public class ZabbixApiMethod {
         String responseBody = null;
         try {
             httpPost.setHeader("Content-Type", "application/json-rpc");
-            httpPost.setEntity(new StringEntity(requestJson.toString(), HTTP.UTF_8)); 
+            httpPost.setEntity(new StringEntity(requestJson.toString(), HTTP.UTF_8));
 
-            @SuppressWarnings("deprecated")
-            DefaultHttpClient client = new DefaultHttpClient();
-            //HttpClient client = HttpClientBuilder.create().build();
-            httpResponse = client.execute(httpPost);
+            httpResponse = httpClient.execute(httpPost);
             responseBody = EntityUtils.toString(httpResponse.getEntity());
 
         } catch (Exception e) {
-            throw new ZabbixApiException("HTTP Request Error");
+            throw new ZabbixApiException(e);
         }
 
         // HTTP status error
@@ -115,5 +114,15 @@ public class ZabbixApiMethod {
         //logger.debug("response json is \n" + responseBody);
 
         return responseBody;
+    }
+
+    static {
+        RequestConfig defaultRequestConfig = RequestConfig.custom()
+                .setSocketTimeout(5000)
+                .setConnectTimeout(5000)
+                .setConnectionRequestTimeout(5000)
+                .setStaleConnectionCheckEnabled(true)
+                .build();
+        httpClient = HttpClients.custom().setDefaultRequestConfig(defaultRequestConfig).setMaxConnTotal(100).setMaxConnPerRoute(100).build();
     }
 }
