@@ -123,6 +123,6 @@ public class ZabbixApiMethod {
                 .setConnectionRequestTimeout(5000)
                 .setStaleConnectionCheckEnabled(true)
                 .build();
-        httpClient = HttpClients.custom().setDefaultRequestConfig(defaultRequestConfig).setMaxConnTotal(100).setMaxConnPerRoute(100) .build();
+        httpClient = HttpClients.custom().setDefaultRequestConfig(defaultRequestConfig).setMaxConnTotal(100).setMaxConnPerRoute(100).build();
     }
 }
